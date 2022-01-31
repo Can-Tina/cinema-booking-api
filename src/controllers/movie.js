@@ -73,7 +73,28 @@ const createMovie = async (req, res) => {
     res.json({ data: createdMovie })
 }
 
+const getOneMovie = async (req, res) => {
+    const movieReq = req.params.movie
+    if (isNaN(movieReq) === true) {
+        const movie = await prisma.movie.findFirst({
+            where: {
+                title: movieReq
+            }
+        })
+        res.json({ data: movie })
+    } else {
+        const movieId = parseInt(movieReq)
+        const movie = await prisma.movie.findUnique({
+            where: {
+                id: movieId
+            }
+        })
+        res.json({ data: movie })
+    }
+}
+
 module.exports = {
     getAllMovies,
-    createMovie
+    createMovie,
+    getOneMovie
 };
