@@ -50,6 +50,17 @@ const createMovie = async (req, res) => {
         screenId
     } = req.body
 
+    const checkForExistingMovie = async (title) => {
+        return await prisma.movie.findFirst({
+            where: {
+                title: title,
+            },
+        });
+    };
+    
+    if (await checkForExistingMovie(title))
+        return res.status(400).send('Movie already exists in database');
+
     const createdMovie = await prisma.movie.create({
         data: {
             title,

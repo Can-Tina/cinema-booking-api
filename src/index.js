@@ -28,6 +28,9 @@ app.use('/movies', movieRouter)
 const screenRouter = require('./routers/screen');
 app.use('/screens', screenRouter);
 
+const ticketRouter = require('./routers/ticket.js');
+app.use('/ticket', ticketRouter);
+
 
 
 // Set up a default "catch all" route to use when someone visits a route
