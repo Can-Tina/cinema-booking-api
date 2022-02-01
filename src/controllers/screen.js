@@ -10,16 +10,15 @@ const createScreen = async (req, res) => {
     const createdScreen = await prisma.screen.create({
         data: {
             number,
-            screening: {
+            screenings: {
                 create: {
                     movieId,
                     startsAt
                 }
             }
         },
-
         include: {
-            contact: true
+            screenings: true
         }
     })
 
