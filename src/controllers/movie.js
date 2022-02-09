@@ -1,7 +1,7 @@
 const prisma = require('../utils/prisma');
 
 const getAllMovies = async (req, res) => {
-    if (req.query.lessthan === undefined && req.query.greaterthan === undefined) {
+    if (!req.query.lessthan && !req.query.greaterthan) {
         console.log("Getting All Movies")
         const movies = await prisma.movie.findMany({
             include: {
@@ -10,7 +10,7 @@ const getAllMovies = async (req, res) => {
         })
 
         res.json({ data: movies })
-    } else if (req.query.lessthan !== undefined) {
+    } else if (req.query.lessthan) {
         console.log("Getting All Movies <")
         const LT = parseInt(req.query.lessthan)
         const movies = await prisma.movie.findMany({
@@ -42,6 +42,29 @@ const getAllMovies = async (req, res) => {
     }
 }
 
+/*
+const getAllMovies = async (req, res => {
+    const runtimeParam = {};
+
+    req.query["lessthan"] != null ? runtimeParam.lt = parseInt(req.query.lessthan) : null
+    req.query["greaterthan"] != null ? runtimeParam.gt = parseInt(req.query.greaterthan) : null
+
+    const reqParam = {
+        include: {
+            screenings: true
+        },
+        where: {
+            runtimeMins: {
+                ...runtimeParam
+            }
+        }
+    }
+
+    const movies = await prisma.movie.findMany(reqParam)
+    res.json({ data: movies })
+}
+*/
+
 const createMovie = async (req, res) => {
     const {
         title,
@@ -57,7 +80,7 @@ const createMovie = async (req, res) => {
             },
         });
     };
-    
+
     if (await checkForExistingMovie(title))
         return res.status(400).send('Movie already exists in database');
 
