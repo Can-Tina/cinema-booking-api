@@ -31,8 +31,6 @@ app.use('/screens', screenRouter);
 const ticketRouter = require('./routers/ticket.js');
 app.use('/ticket', ticketRouter);
 
-
-
 // Set up a default "catch all" route to use when someone visits a route
 // that we haven't built
 app.get('*', (req, res) => {
